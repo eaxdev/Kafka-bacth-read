@@ -1,0 +1,24 @@
+spring:
+  kafka:
+    bootstrap-servers:
+      - localhost:9092
+    properties:
+      schema.registry.url: http://localhost:8081
+    consumer:
+      auto-offset-reset: earliest
+      max-poll-records: 10000
+      enable-auto-commit: true
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      group-id: "batch"
+
+      properties:
+        #fetch.min.bytes: 52428800 #50Мб
+        #fetch.max.wait.ms: 5000
+        #fetch.max.bytes: 10240
+        max.partition.fetch.bytes: 52428800
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+    listener:
+      type: batch
